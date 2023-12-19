@@ -147,4 +147,22 @@ const checkout = async (req, res) => {
     }
 };
 
-module.exports = { getAllOrders, getOrderById, createOrder, checkout };
+
+const updateOrderStatus = async (req, res) => {
+    try {
+        const { orderId, newStatus } = req.body;
+
+        const order = await Order.findByIdAndUpdate(orderId, { status: newStatus }, { new: true });
+        if (!order) {
+            return res.status(404).json({ message: 'Order not found.' });
+        }
+
+        res.json({ message: 'Order status updated successfully.' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error.' });
+    }
+};
+
+
+module.exports = { getAllOrders, getOrderById, createOrder, checkout, updateOrderStatus };

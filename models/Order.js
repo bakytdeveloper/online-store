@@ -9,6 +9,8 @@ const orderSchema = new mongoose.Schema({
     }],
     total: { type: Number, required: true },
     status: { type: String, enum: ['pending', 'shipped', 'delivered'], default: 'pending' },
+    deliveryAddress: { type: String }, // Новое поле
+
 });
 
 const Order = mongoose.model('Order', orderSchema);

@@ -1,8 +1,8 @@
 // server/controllers/UserController.js
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
-const Product = require('../models/Product');
+const User = require('./../models/User');
+const Product = require('./../models/Product');
 
 
 const registerUser = async (req, res) => {
@@ -46,7 +46,7 @@ const loginUser = async (req, res) => {
         }
 
         // Создание JWT токена
-        const token = jwt.sign({ userId: user._id, email: user.email, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user._id, email: user.email, role: user.role }, process.env.JWT_SECRET, { expiresIn: '30d' });
 
         res.json({ token, userId: user._id, email: user.email, role: user.role });
     } catch (error) {
@@ -145,5 +145,50 @@ const confirmOrder = async (req, res) => {
     }
 };
 
+const updateUserProfile = async (req, res) => {
+    try {
+        const { userId, firstName, lastName } = req.body;
 
-module.exports = { registerUser, loginUser, addToCart, removeFromCart,  editCart, confirmOrder };
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found.' });
+        }
+
+        user.firstName = firstName;
+        user.lastName = lastName;
+
+        await user.save();
+
+        res.json({ message: 'User profile updated successfully.' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error.' });
+    }
+};
+
+
+const getUserProfile = async (req, res) => {
+    try {
+        const { userId } = req.body;
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found.' });
+        }
+
+        res.json({
+            userId: user._id,
+            email: user.email,
+            role: user.role,
+            firstName: user.firstName,
+            lastName: user.lastName,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error.' });
+    }
+};
+
+
+
+module.exports = { registerUser, loginUser, addToCart, removeFromCart,  editCart, confirmOrder, updateUserProfile, getUserProfile };

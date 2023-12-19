@@ -10,6 +10,8 @@ const userSchema = new mongoose.Schema({
         quantity: { type: Number, default: 1 },
     }],
     purchaseHistory: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
+    firstName: { type: String },
+    lastName: { type: String },
 });
 
 const User = mongoose.model('User', userSchema);
