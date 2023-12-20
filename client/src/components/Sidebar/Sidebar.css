@@ -1,21 +1,52 @@
+/*!* client/src/components/Sidebar/Sidebar.css *!*/
+/*.sidebar {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: flex-start;*/
+/*    margin-left: 20px;*/
+/*    margin-top: 60px;*/
+/*}*/
+
+/*.sidebar-item {*/
+/*    margin: 10px 0;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.sidebar-item:hover {*/
+/*    color: #6392ef;*/
+/*}*/
+
+/*.active {*/
+/*    font-weight: bold;*/
+/*}*/
+
 /* client/src/components/Sidebar/Sidebar.css */
 .sidebar {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-left: 20px;
-    margin-top: 60px;
+    width: 200px;
+    background-color: #f8f9fa;
+    padding: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    margin-top: 100px;
 }
 
-.sidebar-item {
-    margin: 10px 0;
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
     cursor: pointer;
+    padding: 8px;
+    margin: 4px 0;
+    border-radius: 4px;
 }
 
-.sidebar-item:hover {
-    color: #6392ef;
+li:hover {
+    background-color: #e2e6ea;
 }
 
-.active {
-    font-weight: bold;
+.selected {
+    background-color: #007bff;
+    color: #fff;
 }

@@ -1,27 +1,19 @@
-
-
-
-
-
+//
+//
+//
 // // client/src/components/Sidebar/Sidebar.js
 // import React, { useState, useEffect } from 'react';
 // import './Sidebar.css';
 //
-// const Sidebar = ({ onTypeSelect, onDirectionSelect }) => {
+// const Sidebar = ({ onDirectionSelect }) => {
 //     const [directions, setDirections] = useState([]);
-//     const [types, setTypes] = useState([]);
-//     const [selectedType, setSelectedType] = useState(null);
 //     const [selectedDirection, setSelectedDirection] = useState(null);
-//     const [displayMode, setDisplayMode] = useState('directions');
+//     const [types, setTypes] = useState([]);
 //
 //     useEffect(() => {
 //         const fetchDirections = async () => {
 //             try {
 //                 const response = await fetch('http://localhost:5500/api/products/directions');
-//                 if (!response.ok) {
-//                     throw new Error(`Error fetching directions: ${response.statusText}`);
-//                 }
-//
 //                 const data = await response.json();
 //
 //                 console.log('Received directions data:', data);
@@ -32,17 +24,17 @@
 //                     console.error('Invalid data format for directions:', data);
 //                 }
 //             } catch (error) {
-//                 console.error('Error fetching directions:', error.message);
+//                 console.error('Error fetching directions:', error);
 //             }
 //         };
 //
+//         fetchDirections();
+//     }, []);
+//
+//     useEffect(() => {
 //         const fetchTypes = async () => {
 //             try {
-//                 const response = await fetch('http://localhost:5500/api/products/types');
-//                 if (!response.ok) {
-//                     throw new Error(`Error fetching types: ${response.statusText}`);
-//                 }
-//
+//                 const response = await fetch(`http://localhost:5500/api/products/types?direction=${selectedDirection}`);
 //                 const data = await response.json();
 //
 //                 console.log('Received types data:', data);
@@ -53,73 +45,56 @@
 //                     console.error('Invalid data format for types:', data);
 //                 }
 //             } catch (error) {
-//                 console.error('Error fetching types:', error.message);
+//                 console.error('Error fetching types:', error);
 //             }
 //         };
 //
-//         fetchDirections();
-//         fetchTypes();
-//     }, []);
+//         if (selectedDirection) {
+//             fetchTypes();
+//         }
+//     }, [selectedDirection]);
 //
-//     const handleTypeClick = (type) => {
-//         setSelectedType(type);
-//         onTypeSelect && onTypeSelect(type);
-//         setDisplayMode('types');
-//     };
-//
-//     const handleDirectionClick = (direction) => {
-//         setSelectedDirection(direction);
-//         onDirectionSelect && onDirectionSelect(direction);
-//         setDisplayMode('types');
-//     };
-//
-//     const handleShowAllClick = () => {
-//         setSelectedType(null);
-//         setSelectedDirection(null);
-//         onTypeSelect && onTypeSelect(null);
-//         onDirectionSelect && onDirectionSelect(null);
-//         setDisplayMode('directions');
+//     const handleItemClick = (item) => {
+//         if (selectedDirection) {
+//             onDirectionSelect(item);
+//             setSelectedDirection(null);
+//         } else {
+//             setSelectedDirection(item);
+//         }
 //     };
 //
 //     return (
 //         <aside className="sidebar">
-//             <h2>Тип товара</h2>
+//             <h3>{selectedDirection ? 'Типы товаров' : 'Направление товара'}</h3>
 //             <ul>
-//                 <li
-//                     className={displayMode === 'directions' ? 'selected' : undefined}
-//                     onClick={handleShowAllClick}
-//                 >
-//                     Все товары
-//                 </li>
-//                 {displayMode === 'directions' &&
-//                 directions.map((direction, index) => (
-//                     <li
-//                         key={index}
-//                         className={selectedDirection === direction ? 'selected' : undefined}
-//                         onClick={() => handleDirectionClick(direction)}
-//                     >
-//                         {direction}
-//                     </li>
-//                 ))}
-//                 {displayMode === 'types' &&
-//                 types.map((type, index) => (
-//                     <li
-//                         key={index}
-//                         className={selectedType === type ? 'selected' : undefined}
-//                         onClick={() => handleTypeClick(type)}
-//                     >
-//                         {type}
-//                     </li>
-//                 ))}
+//                 {selectedDirection ? (
+//                     types.map((type, index) => (
+//                         <li
+//                             key={index}
+//                             className={selectedDirection === type ? 'selected' : undefined}
+//                             onClick={() => handleItemClick(type)}
+//                         >
+//                             {type}
+//                         </li>
+//                     ))
+//                 ) : (
+//                     directions.map((direction, index) => (
+//                         <li
+//                             key={index}
+//                             className={selectedDirection === direction ? 'selected' : undefined}
+//                             onClick={() => handleItemClick(direction)}
+//                         >
+//                             {direction}
+//                         </li>
+//                     ))
+//                 )}
 //             </ul>
 //         </aside>
 //     );
 // };
 //
 // export default Sidebar;
-
-
-
+//
 
 
 
@@ -127,20 +102,15 @@
 import React, { useState, useEffect } from 'react';
 import './Sidebar.css';
 
-const Sidebar = ({ onTypeSelect, onDirectionSelect }) => {
+const Sidebar = ({ onDirectionSelect }) => {
     const [directions, setDirections] = useState([]);
-    const [types, setTypes] = useState([]);
-    const [selectedType, setSelectedType] = useState(null);
     const [selectedDirection, setSelectedDirection] = useState(null);
+    const [types, setTypes] = useState([]);
 
     useEffect(() => {
         const fetchDirections = async () => {
             try {
                 const response = await fetch('http://localhost:5500/api/products/directions');
-                if (!response.ok) {
-                    throw new Error(`Error fetching directions: ${response.statusText}`);
-                }
-
                 const data = await response.json();
 
                 console.log('Received directions data:', data);
@@ -151,69 +121,56 @@ const Sidebar = ({ onTypeSelect, onDirectionSelect }) => {
                     console.error('Invalid data format for directions:', data);
                 }
             } catch (error) {
-                console.error('Error fetching directions:', error.message);
+                console.error('Error fetching directions:', error);
             }
         };
 
         fetchDirections();
     }, []);
 
-    const fetchTypesByDirection = async (direction) => {
-        try {
-            const response = await fetch(`http://localhost:5500/api/products/types?direction=${direction}`);
-            if (!response.ok) {
-                throw new Error(`Error fetching types for direction ${direction}: ${response.statusText}`);
+    useEffect(() => {
+        const fetchTypes = async () => {
+            try {
+                const response = await fetch(`http://localhost:5500/api/products/types?direction=${selectedDirection}`);
+                const data = await response.json();
+
+                console.log('Received types data:', data);
+
+                if (Array.isArray(data)) {
+                    setTypes(data);
+                } else {
+                    console.error('Invalid data format for types:', data);
+                }
+            } catch (error) {
+                console.error('Error fetching types:', error);
             }
+        };
 
-            const data = await response.json();
-
-            console.log(`Received types data for direction ${direction}:`, data);
-
-            if (Array.isArray(data)) {
-                setTypes(data);
-            } else {
-                console.error(`Invalid data format for types for direction ${direction}:`, data);
-            }
-        } catch (error) {
-            console.error(`Error fetching types for direction ${direction}:`, error.message);
+        if (selectedDirection) {
+            fetchTypes();
         }
-    };
+    }, [selectedDirection]);
 
-    const handleTypeClick = (type) => {
-        setSelectedType(type);
-        onTypeSelect && onTypeSelect(type);
-    };
 
-    const handleDirectionClick = (direction) => {
-        setSelectedDirection(direction);
-        onDirectionSelect && onDirectionSelect(direction);
-        fetchTypesByDirection(direction);
-    };
-
-    const handleShowAllClick = () => {
-        setSelectedType(null);
-        setSelectedDirection(null);
-        onTypeSelect && onTypeSelect(null);
-        onDirectionSelect && onDirectionSelect(null);
-        setTypes([]); // Очищаем список типов при показе всех направлений
+    const handleItemClick = (item) => {
+        if (selectedDirection) {
+            onDirectionSelect(item);
+            setSelectedDirection(null);
+        } else {
+            setSelectedDirection(item);
+        }
     };
 
     return (
         <aside className="sidebar">
-            <h2>Тип товара</h2>
+            <h3>{selectedDirection ? 'Типы товаров' : 'Направление товара'}</h3>
             <ul>
-                <li
-                    className={!selectedType && !selectedDirection ? 'selected' : undefined}
-                    onClick={handleShowAllClick}
-                >
-                    Все товары
-                </li>
                 {selectedDirection ? (
                     types.map((type, index) => (
                         <li
                             key={index}
-                            className={selectedType === type ? 'selected' : undefined}
-                            onClick={() => handleTypeClick(type)}
+                            className={selectedDirection === type ? 'selected' : undefined}
+                            onClick={() => handleItemClick(type)}
                         >
                             {type}
                         </li>
@@ -223,7 +180,7 @@ const Sidebar = ({ onTypeSelect, onDirectionSelect }) => {
                         <li
                             key={index}
                             className={selectedDirection === direction ? 'selected' : undefined}
-                            onClick={() => handleDirectionClick(direction)}
+                            onClick={() => handleItemClick(direction)}
                         >
                             {direction}
                         </li>
@@ -235,3 +192,4 @@ const Sidebar = ({ onTypeSelect, onDirectionSelect }) => {
 };
 
 export default Sidebar;
+

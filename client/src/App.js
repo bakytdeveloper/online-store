@@ -34,8 +34,7 @@ function App() {
         <Router>
             <div>
                 <Header />
-                <Sidebar
-                />
+                <Sidebar />
                 <Switch>
 
 
@@ -48,3 +47,5 @@ function App() {
 }
 
 export default App;
+
+

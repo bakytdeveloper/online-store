@@ -62,15 +62,31 @@ const getAllDirections = async (req, res) => {
     }
 };
 
+// const getAllTypes = async (req, res) => {
+//     try {
+//         const types = await Product.distinct('type');
+//         res.json(types);
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ message: 'Internal server error.' });
+//     }
+// };
+
+
+
 const getAllTypes = async (req, res) => {
     try {
-        const types = await Product.distinct('type');
+        const { direction } = req.query;
+        const filter = direction ? { direction } : {}; // Добавляем фильтр по направлению
+
+        const types = await Product.distinct('type', filter);
         res.json(types);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error.' });
     }
 };
+
 
 
 module.exports = { getAllProducts, getProductById, addProduct, deleteProductById,  getAllDirections, getAllTypes };
