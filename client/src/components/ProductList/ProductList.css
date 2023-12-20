@@ -1,0 +1,113 @@
+/*!* client/src/components/ProductList/ProductList.css *!*/
+/*.product-list {*/
+/*    display: flex;*/
+/*    flex-wrap: wrap;*/
+/*    gap: 4px;*/
+/*    justify-content: flex-start;*/
+/*    !*margin-top: 100px;*!*/
+/*    margin-left: 260px;*/
+/*    padding-right: -100px;*/
+/*}*/
+
+
+/*.product-card {*/
+/*    width: calc(29.33% - 4px);*/
+/*    box-sizing: border-box;*/
+/*    margin-bottom: 4px;*/
+
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    border: 1px solid rgba(155, 135, 135, 0.1);*/
+/*    overflow: hidden;*/
+/*    transition: transform 0.2s ease-in-out;*/
+/*}*/
+
+/*.product-card:hover {*/
+/*    transform: scale(1.01);*/
+/*    box-shadow: 3px 4px 3px rgba(98, 91, 91, 0.1);*/
+/*}*/
+
+/*.product-image {*/
+/*    width: 100%; !* Чтобы изображение занимало всю ширину карточки *!*/
+/*    height: auto; !* Для автоматического определения высоты и сохранения пропорций *!*/
+/*    object-fit: contain;*/
+/*}*/
+
+/*.product-info {*/
+/*    margin-bottom: 0;*/
+/*    padding: 10px;*/
+/*    border: 1px solid #ddd; !* Добавим рамку вокруг карточки *!*/
+/*    border-radius: 8px; !* Закруглим углы *!*/
+/*    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); !* Добавим тень для подчеркивания *!*/
+/*}*/
+
+/*.product-title {*/
+/*    font-size: 1.2em;*/
+/*    margin-bottom: 8px;*/
+/*}*/
+
+/*.product-description {*/
+/*    margin-bottom: 8px;*/
+/*}*/
+
+/*.product-price {*/
+/*    font-weight: bold;*/
+/*    color: #007bff; !* Цвет цены *!*/
+/*}*/
+
+
+
+
+/* client/src/components/ProductList/ProductList.css */
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: flex-start;
+    margin-left: 260px;
+}
+
+.product-card {
+    width: calc(29.33% - 4px);
+    box-sizing: border-box;
+    margin-bottom: 4px;
+
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(155, 135, 135, 0.1);
+    overflow: hidden;
+    transition: transform 0.2s ease-in-out;
+}
+
+.product-card:hover {
+    transform: scale(1.01);
+    box-shadow: 3px 4px 3px rgba(98, 91, 91, 0.1);
+}
+
+.product-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.product-info {
+    margin-top: auto; /* Добавим этот стиль */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.product-title {
+    font-size: 1.2em;
+    margin-bottom: 8px;
+}
+
+.product-description {
+    margin-bottom: 8px;
+}
+
+.product-price {
+    font-weight: bold;
+    color: #007bff;
+}

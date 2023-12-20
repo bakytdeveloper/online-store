@@ -1,0 +1,21 @@
+/* client/src/components/Sidebar/Sidebar.css */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 20px;
+    margin-top: 60px;
+}
+
+.sidebar-item {
+    margin: 10px 0;
+    cursor: pointer;
+}
+
+.sidebar-item:hover {
+    color: #6392ef;
+}
+
+.active {
+    font-weight: bold;
+}

@@ -4,6 +4,7 @@ const Product = require('./../models/Product');
 const getAllProducts = async (req, res) => {
     try {
         const products = await Product.find();
+
         res.json(products);
     } catch (error) {
         console.error(error);
@@ -49,4 +50,27 @@ const deleteProductById = async (req, res) => {
     }
 };
 
-module.exports = { getAllProducts, getProductById, addProduct, deleteProductById };
+
+
+const getAllDirections = async (req, res) => {
+    try {
+        const directions = await Product.distinct('direction');
+        res.json(directions);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error.' });
+    }
+};
+
+const getAllTypes = async (req, res) => {
+    try {
+        const types = await Product.distinct('type');
+        res.json(types);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error.' });
+    }
+};
+
+
+module.exports = { getAllProducts, getProductById, addProduct, deleteProductById,  getAllDirections, getAllTypes };
