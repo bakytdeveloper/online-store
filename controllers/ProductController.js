@@ -88,5 +88,20 @@ const getAllTypes = async (req, res) => {
 };
 
 
+const getProductsByDirection = async (req, res) => {
+    try {
+        const { direction } = req.params;
+        const filter = direction ? { direction } : {}; // Добавляем фильтр по направлению
 
-module.exports = { getAllProducts, getProductById, addProduct, deleteProductById,  getAllDirections, getAllTypes };
+        const products = await Product.find(filter);
+        res.json(products);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error.' });
+    }
+};
+
+
+
+module.exports = { getAllProducts, getProductById, addProduct,
+    deleteProductById,  getAllDirections, getAllTypes, getProductsByDirection };

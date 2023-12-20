@@ -8,7 +8,7 @@ const ProductList = ({ products }) => {
         <div className="product-list">
             {products.map(product => (
                 <ProductCard
-                    key={product.id}
+                    key={product._id}
                     images={product.images || []}
                     brand={product.brand}
                     description={product.description}

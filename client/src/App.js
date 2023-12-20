@@ -29,12 +29,25 @@ function App() {
         fetchProducts();
     }, []); // Пустой массив зависимостей гарантирует вызов useEffect только после монтирования компонента
 
+    const [selectedDirection, setSelectedDirection] = useState(null);
+
+    const handleDirectionSelect = (direction) => {
+        setSelectedDirection(direction);
+    };
+
+    const handleProductsLoad = (loadedProducts) => {
+        setProducts(loadedProducts);
+    };
+
 
     return (
         <Router>
             <div>
                 <Header />
-                <Sidebar />
+                <Sidebar
+                    onDirectionSelect={handleDirectionSelect}
+                    onProductsLoad={handleProductsLoad}
+                />
                 <Switch>
 
 

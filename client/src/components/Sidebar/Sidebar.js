@@ -102,7 +102,7 @@
 import React, { useState, useEffect } from 'react';
 import './Sidebar.css';
 
-const Sidebar = ({ onDirectionSelect }) => {
+const Sidebar = ({ onDirectionSelect, onProductsLoad }) => {
     const [directions, setDirections] = useState([]);
     const [selectedDirection, setSelectedDirection] = useState(null);
     const [types, setTypes] = useState([]);
@@ -161,6 +161,27 @@ const Sidebar = ({ onDirectionSelect }) => {
         }
     };
 
+
+    const handleDirectionClick = async (direction) => {
+        setSelectedDirection(direction);
+        onDirectionSelect(direction); // Передаем выбранное направление обратно в родительский компонент
+
+        try {
+            const response = await fetch(`http://localhost:5500/api/products/directions/${direction}`);
+            const data = await response.json();
+
+            console.log('Received products data:', data);
+
+            if (Array.isArray(data)) {
+                onProductsLoad(data); // Передаем полученные товары обратно в родительский компонент
+            } else {
+                console.error('Invalid data format for products:', data);
+            }
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        }
+    };
+
     return (
         <aside className="sidebar">
             <h3>{selectedDirection ? 'Типы товаров' : 'Направление товара'}</h3>
@@ -170,7 +191,7 @@ const Sidebar = ({ onDirectionSelect }) => {
                         <li
                             key={index}
                             className={selectedDirection === type ? 'selected' : undefined}
-                            onClick={() => handleItemClick(type)}
+                            onClick={() => handleDirectionClick(type)}
                         >
                             {type}
                         </li>
@@ -180,7 +201,7 @@ const Sidebar = ({ onDirectionSelect }) => {
                         <li
                             key={index}
                             className={selectedDirection === direction ? 'selected' : undefined}
-                            onClick={() => handleItemClick(direction)}
+                            onClick={() => handleDirectionClick(direction)}
                         >
                             {direction}
                         </li>

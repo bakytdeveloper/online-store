@@ -21,6 +21,7 @@ router.get('/', ProductController.getAllProducts);
 router.get('/:id', ProductController.getProductById);
 router.post('/', ProductController.addProduct);
 router.delete('/:id', ProductController.deleteProductById);
+router.get('/directions/:direction', ProductController.getProductsByDirection);
 
 module.exports = router;
 
